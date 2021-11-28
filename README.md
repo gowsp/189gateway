@@ -4,7 +4,7 @@
 
 ## 使用说明
 
-[下载最新版](/releases/latest), 修改文件中的天翼网关用户名和密码, 执行相关命令. 目前支持以下功能:
+[下载](https://github.com/gowsp/189gateway/releases/latest)最新版, 修改文件中的天翼网关用户名和密码, 执行相关命令. 目前支持以下功能:
 
 - `bash gateway.sh gwinfo` 输出网关信息
 - `bash gateway.sh devinfo {设备类型}` 输出设备信息; 设备类型: 0 有线终端; 1 无线终端; 为空时输出全部已连接终端信息
