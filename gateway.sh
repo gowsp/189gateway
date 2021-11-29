@@ -52,6 +52,25 @@ gwinfo(){
   echo $value | jq '.'
 }
 
+wanip(){
+  value=`curl -sb "sysauth=$cookie" "$base_url/admin/settings/gwinfo?get=part"`
+  if [[ $# -eq 1 || $2 = '4' ]]
+  then
+    echo $value | sed 's/.*WANIP\":\"\([0-9.]*\).*/\1/g'
+    return 0
+  fi
+  case $2 in
+  '-4')
+    echo $value | sed 's/.*WANIP\":\"\([0-9.]*\).*/\1/g'
+    ;;
+  '-6')
+    echo $value | sed 's/.*WANIPv6\":\"\([0-9a-zA-Z:]*\).*/\1/g'
+    ;;
+  *)
+    echo "invalid type $2, -4 -6 are supported"
+  esac
+}
+
 lsport(){
   value=`curl -sb "sysauth=$cookie" "$base_url/admin/settings/pmDisplay"`
   echo $value | jq '.'
@@ -90,7 +109,12 @@ reboot(){
   curl -sb "sysauth=$cookie" "$base_url/admin/reboot" --data-raw "token=$token"
 }
 
-cmds=('gwinfo' 'devinfo' 'lsport' 'addport' 'opport' 'reboot')
+cmds=('gwinfo' 'wanip' 'devinfo' 'lsport' 'addport' 'opport' 'reboot')
+if [ $# -eq 0 ]
+then
+  echo "plase input one of [${cmds[*]}]"
+  exit 1
+fi
 for cmd in ${cmds[*]}
 do
   if [ $cmd = $1 ]
